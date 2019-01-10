@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 var filters = {
   all: function (tasks) {
     return tasks;
@@ -49,9 +51,8 @@ export default {
     }
   },
   mounted () {
-    fetch('http://localhost:3000/api/Tasks')
-      .then(res => res.json())
-      .then(data => this.tasks = data)
+    axios.get('Tasks')
+      .then(({data}) => this.tasks = data)
   },
   methods: {
     addTask: function () {
@@ -60,29 +61,18 @@ export default {
         return;
       }
 
-      let newTaskObj = { title: value, completed: false }
-      
-      fetch('http://localhost:3000/api/Tasks', {
-        method: 'POST',
-        body: JSON.stringify(newTaskObj),
-        headers:{
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => res.json())
-        .then(task => {
-          this.tasks.push(task);
+      axios.post('Tasks', { title: value, completed: false })
+        .then(({data}) => {
+          this.tasks.push(data);
         })
+        .catch(error => console.log(error))
 
       this.newTask = '';
     },
     removeTask: function (task) {
       var index = this.tasks.indexOf(task);
 
-      fetch('http://localhost:3000/api/Tasks/' + task.id, {
-        method: 'DELETE'
-      })
-        .then(res => res.json())
+      axios.delete('Tasks/' + task.id)
         .then(({count}) => {
           this.tasks.splice(index, 1);
         })
@@ -90,7 +80,6 @@ export default {
   },
   computed: {
     filteredTasks: function () {
-      console.log(this.$route)
       return filters[this.visibility](this.tasks);
     }
   }

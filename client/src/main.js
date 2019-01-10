@@ -1,47 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
-import Router from 'vue-router'
+import router from './router'
 
-import Tasks from './Tasks.vue'
-import Task from './Task.vue'
+import axios from 'axios'
 
-Vue.use(Router)
+Vue.config.productionTip = false
 
-const router = new Router({
-  routes: [
-    {
-      path: '/',
-      component: Tasks
-    },
-    {
-      path: '/task/:id',
-      component: Task
-    },
-    {
-      path: '/all', 
-      component: Tasks,
-      beforeEnter: () => {
-        console.log('all!')
-      }
-    },
-    {
-      path: '/active',
-      component: Tasks,
-      beforeEnter: () => {
-        console.log('active!')
-      }
-    },
-    {
-      path: '/completed',
-      component: Tasks,
-      beforeEnter: () => {
-        window.visibility = 
-        console.log('completed!')
-      }
-    },
-    { path: '*', redirect: '/' },  
-  ]
-})
+axios.defaults.baseURL = `http://${window.location.hostname}:3000/api/`
 
 new Vue({
   el: '#app',
