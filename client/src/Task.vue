@@ -1,5 +1,6 @@
 <template>
   <section class="task">
+    <span>Subtasks {{ completedSubTasks }} / {{ totalSubTasks }}</span>
     <ul>
       <li v-for="subTask in subTasks" :key="subTask.id">
         <input type="checkbox" v-model="subTask.completed">
@@ -52,6 +53,26 @@ export default {
         })
         .catch(err => console.log(err))
     }
+  },
+  computed: {
+    totalSubTasks () {
+      return this.subTasks.length
+    },
+    completedSubTasks () {
+      return this.subTasks.filter(subTask => subTask.completed).length
+    }
   }
 }
 </script>
+
+<style scoped>
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  padding: 5px 5px;
+  margin-bottom: 5px;
+}
+</style>

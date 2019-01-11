@@ -82,9 +82,6 @@ export default {
         completed: !task.completed
       })
         .catch(error => console.log(error))
-        // .then(res => {
-        //   task.completed = !task.completed
-        // })
     }
   },
   computed: {
