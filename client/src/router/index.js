@@ -18,22 +18,22 @@ const routes = [
   {
     path: '/all', 
     component: Tasks,
-    beforeEnter: () => {
-      console.log('all!')
+    meta: {
+      visibility: 'all'
     }
   },
   {
     path: '/active',
     component: Tasks,
-    beforeEnter: () => {
-      console.log('active!')
+    meta: {
+      visibility: 'active'
     }
   },
   {
     path: '/completed',
     component: Tasks,
-    beforeEnter: () => {
-      console.log('completed!')
+    meta: {
+      visibility: 'completed'
     }
   },
   { path: '*', redirect: '/' }

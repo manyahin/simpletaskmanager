@@ -46,7 +46,7 @@ export default {
   data () {
     return {
       tasks: [],
-      visibility: 'all',
+      visibility: this.$route.meta.visibility || 'all',
       newTask: ''
     }
   },
