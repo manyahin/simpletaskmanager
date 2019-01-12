@@ -21,5 +21,13 @@
   "validations": [],
   "relations": {},
   "acls": [],
-  "methods": {}
+  "methods": {},
+  "indexes": {
+    "task_title": {
+      "keys": {"taskId": 1, "title": 1},
+      "options": {
+        "unique": true
+      }
+    }
+  }
 }

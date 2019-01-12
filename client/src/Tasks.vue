@@ -75,7 +75,7 @@ export default {
             self.$notify({
               group: 'main',
               type: 'error',
-              title: 'Dublicate task name',
+              title: 'Dublicate task title',
               text: 'The task with same title already exists, choose another one.'
             })
           }

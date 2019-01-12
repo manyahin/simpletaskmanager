@@ -36,6 +36,7 @@ export default {
   },
   methods: {
     addSubTask () {
+      const self = this
       axios.post('SubTasks', {
         taskId: this.taskId,
         title: this.newSubTask,
@@ -45,7 +46,17 @@ export default {
           this.subTasks.push(data)
           this.newSubTask = ''
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          if (err.response.status == 422) {
+            self.$notify({
+              group: 'main',
+              type: 'error',
+              title: 'Dublicate sub task title',
+              text: 'The sub task with same title already exists in this task, choose another one.'
+            })
+          }
+          console.log(err)
+        })
     },
     removeSubTask (subTask) {
       const index = this.subTasks.indexOf(subTask);
