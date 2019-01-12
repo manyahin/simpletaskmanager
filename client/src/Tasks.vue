@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     addTask: function () {
+      const self = this
       var value = this.newTask && this.newTask.trim();
       if (!value) {
         return;
@@ -67,10 +68,19 @@ export default {
         .then(({data}) => {
           data.subTasks = [];
           this.tasks.push(data);
+          this.newTask = '';
         })
-        .catch(error => console.log(error))
-
-      this.newTask = '';
+        .catch(error => {
+          if (error.response.status == 422) {
+            self.$notify({
+              group: 'main',
+              type: 'error',
+              title: 'Dublicate task name',
+              text: 'The task with same title already exists, choose another one.'
+            })
+          }
+          console.log(error)
+        })
     },
     removeTask: function (task) {
       var index = this.tasks.indexOf(task);

@@ -2,6 +2,7 @@
   <div id="app">
     <h1>Todo list</h1>
     <router-view/>
+    <notifications group="main"/>
   </div>
 </template>
 
