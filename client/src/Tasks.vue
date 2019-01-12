@@ -6,9 +6,10 @@
           <input class="toggle" type="checkbox" v-model="task.completed" @click="completeTask(task)">
           <router-link :to="'/task/' + task.id">{{ task.title }}</router-link>
           <!-- <button class="destroy" @click="removeTask(task)">x</button> -->
-          <span class="subtasks_count">1/3</span>
+          <span class="subtasks_count"> {{ task.subTasks.filter(subTask => subTask.completed).length }} / {{ task.subTasks.length }}</span>
         </li>
       </ul>
+      <label>Add new task:</label>
       <input class="new-todo" autofocus autocomplete="off" placeholder="What task?" v-model="newTask" @keyup.enter="addTask">
     </section>
     <footer>
@@ -51,7 +52,8 @@ export default {
     }
   },
   mounted () {
-    axios.get('Tasks')
+    const filter = {"include": "subTasks"};
+    axios.get('Tasks?filter=' + JSON.stringify(filter))
       .then(({data}) => this.tasks = data)
   },
   methods: {
@@ -63,6 +65,7 @@ export default {
 
       axios.post('Tasks', { title: value, completed: false })
         .then(({data}) => {
+          data.subTasks = [];
           this.tasks.push(data);
         })
         .catch(error => console.log(error))
