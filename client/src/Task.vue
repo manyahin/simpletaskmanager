@@ -3,7 +3,7 @@
     <span>Subtasks {{ completedSubTasks }} / {{ totalSubTasks }}</span>
     <ul>
       <li v-for="subTask in subTasks" :key="subTask.id">
-        <input type="checkbox" v-model="subTask.completed">
+        <input type="checkbox" v-model="subTask.completed" @click="completeSubTask(subTask)">
         <label>{{ subTask.title }}</label>
         <button @click="removeSubTask(subTask)">x</button>
       </li>
@@ -41,7 +41,10 @@ export default {
         title: this.newSubTask,
         completed: false
       })
-        .then(({data}) => this.subTasks.push(data))
+        .then(({data}) => {
+          this.subTasks.push(data)
+          this.newSubTask = ''
+        })
         .catch(err => console.log(err))
     },
     removeSubTask (subTask) {
@@ -52,6 +55,12 @@ export default {
           this.subTasks.splice(index, 1);
         })
         .catch(err => console.log(err))
+    },
+    completeSubTask (subTask) {
+      axios.patch('SubTasks/' + subTask.id, {
+        completed: !subTask.completed
+      })
+        .catch(error => console.log(error))
     }
   },
   computed: {
