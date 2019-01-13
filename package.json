@@ -1,7 +1,10 @@
 {
-  "name": "todo",
+  "name": "task_manager_server",
+  "description": "server part for task manager project",
   "version": "1.0.0",
+  "author": "Ilya Manyahin <i.manyahin@gmail.com>",
   "main": "server/server.js",
+  "private": true,
   "engines": {
     "node": ">=4"
   },
@@ -30,6 +33,5 @@
     "type": "",
     "url": ""
   },
-  "license": "UNLICENSED",
-  "description": "todo"
+  "license": "MIT"
 }

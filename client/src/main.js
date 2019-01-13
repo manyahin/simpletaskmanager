@@ -11,7 +11,7 @@ Vue.use(PrettyCheckbox)
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = `http://${window.location.hostname}:3000/api/`
+axios.defaults.baseURL = `http://${window.location.hostname}:3010/api/`
 
 new Vue({
   el: '#app',

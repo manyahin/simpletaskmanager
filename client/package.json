@@ -1,6 +1,6 @@
 {
-  "name": "jobtest",
-  "description": "A Vue.js project",
+  "name": "task_manager_client",
+  "description": "client part for task manager project",
   "version": "1.0.0",
   "author": "Ilya Manyahin <i.manyahin@gmail.com>",
   "license": "MIT",
