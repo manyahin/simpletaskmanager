@@ -1,7 +1,7 @@
 <template>
   <section class="task">
     <h2>{{ task.title }}</h2>
-    <span>Subtasks {{ completedSubTasks }} / {{ totalSubTasks }}</span>
+    <span>Subtasks: {{ completedSubTasks }} / {{ totalSubTasks }}</span>
     <ul>
       <li v-for="subTask in task.subTasks" :key="subTask.id">
         <input type="checkbox" v-model="subTask.completed" @click="completeSubTask(subTask)">
@@ -9,7 +9,7 @@
         <button @click="removeSubTask(subTask)">x</button>
       </li>
     </ul>
-    <input autofocus autocomplete="off" placeholder="What task?" v-model="newSubTask" @keyup.enter="addSubTask">
+    <input autofocus autocomplete="off" placeholder="What sub task?" v-model="newSubTask" @keyup.enter="addSubTask">
     <p><router-link to="/">← Show all tasks</router-link></p>
   </section>
 </template>
