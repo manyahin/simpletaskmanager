@@ -16,7 +16,8 @@
         </div>
       </li>
     </ul>
-    <input autofocus autocomplete="off" placeholder="What sub task?" v-model="newSubTask" @keyup.enter="addSubTask">
+    <label for="newSubTask">New sub task:</label>
+    <input name="newSubTask" autofocus autocomplete="off" placeholder="Title" v-model="newSubTask" @keyup.enter="addSubTask">
     <p><router-link to="/">← All tasks</router-link></p>
   </section>
 </template>
@@ -46,6 +47,11 @@ export default {
   methods: {
     addSubTask () {
       const self = this
+      var value = this.newSubTask && this.newSubTask.trim();
+      if (!value) {
+        return;
+      }
+
       axios.post('SubTasks', {
         taskId: this.taskId,
         title: this.newSubTask,
@@ -70,11 +76,13 @@ export default {
     removeSubTask (subTask) {
       const index = this.task.subTasks.indexOf(subTask);
 
-      axios.delete('SubTasks/' + subTask.id)
-        .then(res => {
-          this.task.subTasks.splice(index, 1);
-        })
-        .catch(err => console.log(err))
+      if (window.confirm("Are you sure? Sub task \"" + subTask.title + "\" will be deleted.")) {
+        axios.delete('SubTasks/' + subTask.id)
+          .then(res => {
+            this.task.subTasks.splice(index, 1);
+          })
+          .catch(err => console.log(err))
+      }
     },
     completeSubTask (subTask) {
       axios.patch('SubTasks/' + subTask.id, {
@@ -121,6 +129,7 @@ li:hover > .delete_subtask {
   cursor: pointer;
   float: right;
   padding: 3px;
+  opacity: 0.7;
 }
 
 .delete_subtask img {
