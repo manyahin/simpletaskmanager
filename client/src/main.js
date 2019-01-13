@@ -4,8 +4,10 @@ import router from './router'
 
 import axios from 'axios'
 import Notifications from 'vue-notification'
+import PrettyCheckbox from 'pretty-checkbox-vue'
 
 Vue.use(Notifications)
+Vue.use(PrettyCheckbox)
 
 Vue.config.productionTip = false
 

@@ -4,8 +4,14 @@
     <span>Subtasks: {{ completedSubTasks }} / {{ totalSubTasks }}</span>
     <ul>
       <li v-for="subTask in task.subTasks" :key="subTask.id">
-        <input type="checkbox" v-model="subTask.completed" @click="completeSubTask(subTask)">
-        <label>{{ subTask.title }}</label>
+        <p-check class="p-svg p-curve" color="success" v-model="subTask.completed" @change="completeSubTask(subTask)">
+          <svg slot="extra" class="svg svg-icon" viewBox="0 0 20 20">
+              <path d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+                    style="stroke: white;fill:white"></path>
+          </svg>
+          <label>{{ subTask.title }}</label>
+        </p-check>
+        
         <button @click="removeSubTask(subTask)">x</button>
       </li>
     </ul>
@@ -71,7 +77,7 @@ export default {
     },
     completeSubTask (subTask) {
       axios.patch('SubTasks/' + subTask.id, {
-        completed: !subTask.completed
+        completed: subTask.completed
       })
         .catch(error => console.log(error))
     }
@@ -98,5 +104,9 @@ ul {
 li {
   padding: 5px 5px;
   margin-bottom: 5px;
+}
+
+.pretty .state label {
+  text-indent: 0.3em !important;
 }
 </style>
