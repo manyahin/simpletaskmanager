@@ -12,6 +12,6 @@ COPY . /app
 
 RUN cd /app/client && npm install && npm run build
 
-EXPOSE 3000
+EXPOSE 3010
 
 CMD [ "npm", "start" ]
