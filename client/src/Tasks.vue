@@ -1,6 +1,7 @@
 <template>
   <div >
     <h1>Todo list</h1>
+    <div class="items_left">{{ tasksLeft }} Items left</div>
     <section class="tasks">
       <ul>
         <li class="task" v-for="task in filteredTasks" :key="task.id">
@@ -12,14 +13,18 @@
           </p-check>
           <router-link :to="'/task/' + task.id">{{ task.title }}</router-link>
           <!-- <button class="destroy" @click="removeTask(task)">x</button> -->
-          <span class="subtasks_count"> {{ task.subTasks.filter(subTask => subTask.completed).length }} / {{ task.subTasks.length }}</span>
+          <span class="subtasks_count">{{ task.subTasks.filter(subTask => subTask.completed).length }} / {{ task.subTasks.length }}</span>
+          <div class="actions">
+            <div class="delete_task" @click="removeTask(task)">
+              <img src="./assets/cross.png" alt="delete task">  
+            </div>
+          </div>
         </li>
       </ul>
-      <label>Add new task:</label>
-      <input class="new-todo" autofocus autocomplete="off" placeholder="What task?" v-model="newTask" @keyup.enter="addTask">
+      <label>New task:</label>
+      <input class="new_task" autofocus autocomplete="off" placeholder="Title" v-model="newTask" @keyup.enter="addTask">
     </section>
     <footer>
-      <div class="items_left">{{ tasksLeft }} Items left</div>
       <span>Show:</span>
       <ul class="filters">
         <li><a href="#/all" @click="visibility = 'all'" :class="{selected: visibility == 'all'}">All</a></li>
@@ -91,10 +96,12 @@ export default {
     removeTask: function (task) {
       var index = this.tasks.indexOf(task);
 
-      axios.delete('Tasks/' + task.id)
-        .then(({count}) => {
-          this.tasks.splice(index, 1);
-        })
+      if (window.confirm("Are you sure? Task \"" + task.title + "\" will be deleted with all related subtasks.")) {
+        axios.delete('Tasks/' + task.id)
+          .then(({count}) => {
+            this.tasks.splice(index, 1);
+          })
+      }
     },
     completeTask: function(task) {
       // console.log(task.completed)
@@ -129,8 +136,29 @@ li.task {
   border-right: 1px solid grey;
 }
 
+li.task:hover > .actions {
+  display: inline-block;
+}
+
+.actions {
+  float: right;
+  display: none;
+}
+
+.actions .delete_task {
+  cursor: pointer;
+  float: right;
+  padding: 4px 1px;
+  opacity: 0.7;
+}
+
+.actions .delete_task img {
+  width: 16px;
+  height: 16px;
+}
+
 li.task a {
-  font-size: 18px;
+  font-size: 17px;
   text-decoration: none;
   padding: 0 4px;
 }
@@ -143,6 +171,7 @@ li.task span.subtasks_count {
 
 ul.filters {
   display: inline-block;
+  margin: 0;
 }
 
 ul.filters li {
@@ -160,5 +189,14 @@ a.selected {
 
 .items_left {
   margin: 10px 0px;
+}
+
+.new_task {
+  padding: 3px;
+  margin-left: 3px;
+}
+
+footer {
+  margin-top: 15px;
 }
 </style>

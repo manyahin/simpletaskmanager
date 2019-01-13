@@ -17,7 +17,7 @@
       </li>
     </ul>
     <label for="newSubTask">New sub task:</label>
-    <input name="newSubTask" autofocus autocomplete="off" placeholder="Title" v-model="newSubTask" @keyup.enter="addSubTask">
+    <input name="newSubTask" autofocus autocomplete="off" placeholder="Title" v-model="newSubTask" @keyup.enter="addSubTask" class="new_subtask">
     <p><router-link to="/">← All tasks</router-link></p>
   </section>
 </template>
@@ -139,5 +139,10 @@ li:hover > .delete_subtask {
 
 .pretty .state label {
   text-indent: 0.3em !important;
+}
+
+.new_subtask {
+  padding: 3px;
+  margin-left: 3px;
 }
 </style>
