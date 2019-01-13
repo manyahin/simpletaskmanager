@@ -1,15 +1,16 @@
 <template>
   <section class="task">
+    <h2>{{ task.title }}</h2>
     <span>Subtasks {{ completedSubTasks }} / {{ totalSubTasks }}</span>
     <ul>
-      <li v-for="subTask in subTasks" :key="subTask.id">
+      <li v-for="subTask in task.subTasks" :key="subTask.id">
         <input type="checkbox" v-model="subTask.completed" @click="completeSubTask(subTask)">
         <label>{{ subTask.title }}</label>
         <button @click="removeSubTask(subTask)">x</button>
       </li>
     </ul>
     <input autofocus autocomplete="off" placeholder="What task?" v-model="newSubTask" @keyup.enter="addSubTask">
-    <router-link to="/">Home</router-link>  
+    <p><router-link to="/">← Show all tasks</router-link></p>
   </section>
 </template>
 
@@ -21,18 +22,19 @@ export default {
   data () {
     return {
       taskId: this.$route.params.id,
-      subTasks: [],
+      task: {},
       newSubTask: ''
     }
   },
   mounted () {
     const filter = {
       where: {
-        taskId: this.taskId  
-      }
-    }
-    axios.get('SubTasks?filter=' + JSON.stringify(filter))
-      .then(({data}) => this.subTasks = data)
+        id: this.taskId  
+      },
+      include: "subTasks"
+    };
+    axios.get('Tasks?filter=' + JSON.stringify(filter))
+      .then(({data}) => this.task = data.pop())
   },
   methods: {
     addSubTask () {
@@ -43,7 +45,7 @@ export default {
         completed: false
       })
         .then(({data}) => {
-          this.subTasks.push(data)
+          this.task.subTasks.push(data)
           this.newSubTask = ''
         })
         .catch(err => {
@@ -59,11 +61,11 @@ export default {
         })
     },
     removeSubTask (subTask) {
-      const index = this.subTasks.indexOf(subTask);
+      const index = this.task.subTasks.indexOf(subTask);
 
       axios.delete('SubTasks/' + subTask.id)
         .then(res => {
-          this.subTasks.splice(index, 1);
+          this.task.subTasks.splice(index, 1);
         })
         .catch(err => console.log(err))
     },
@@ -76,10 +78,12 @@ export default {
   },
   computed: {
     totalSubTasks () {
-      return this.subTasks.length
+      return this.task.subTasks && 
+        this.task.subTasks.length
     },
     completedSubTasks () {
-      return this.subTasks.filter(subTask => subTask.completed).length
+      return this.task.subTasks && 
+        this.task.subTasks.filter(subTask => subTask.completed).length
     }
   }
 }

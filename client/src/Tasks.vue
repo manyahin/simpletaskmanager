@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div >
+    <h1>Todo list</h1>
     <section class="tasks">
       <ul>
         <li class="task" v-for="task in filteredTasks" :key="task.id">
