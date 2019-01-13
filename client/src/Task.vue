@@ -11,12 +11,13 @@
           </svg>
           <label>{{ subTask.title }}</label>
         </p-check>
-        
-        <button @click="removeSubTask(subTask)">x</button>
+        <div class="delete_subtask" @click="removeSubTask(subTask)">
+          <img src="./assets/cross.png" alt="delete sub task">  
+        </div>
       </li>
     </ul>
     <input autofocus autocomplete="off" placeholder="What sub task?" v-model="newSubTask" @keyup.enter="addSubTask">
-    <p><router-link to="/">← Show all tasks</router-link></p>
+    <p><router-link to="/">← All tasks</router-link></p>
   </section>
 </template>
 
@@ -104,6 +105,27 @@ ul {
 li {
   padding: 5px 5px;
   margin-bottom: 5px;
+  border-bottom: 1px solid lightgrey;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+li:hover > .delete_subtask {
+  display: inline-block;
+}
+
+.delete_subtask {
+  display: none;
+  cursor: pointer;
+  float: right;
+  padding: 3px;
+}
+
+.delete_subtask img {
+  width: 16px;
+  height: 16px;
 }
 
 .pretty .state label {
